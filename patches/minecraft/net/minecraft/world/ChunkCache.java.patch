@@ -1,14 +1,16 @@
 --- ../src-base/minecraft/net/minecraft/world/ChunkCache.java
 +++ ../src-work/minecraft/net/minecraft/world/ChunkCache.java
-@@ -63,6 +63,8 @@
+@@ -63,7 +63,9 @@
      {
          int i = (p_175625_1_.func_177958_n() >> 4) - this.field_72818_a;
          int j = (p_175625_1_.func_177952_p() >> 4) - this.field_72816_b;
+-        return this.field_72817_c[i][j].func_177424_a(p_175625_1_, Chunk.EnumCreateEntityType.IMMEDIATE);
 +        if (i < 0 || i >= field_72817_c.length || j < 0 || j >= field_72817_c[i].length) return null;
 +        if (field_72817_c[i][j] == null) return null;
-         return this.field_72817_c[i][j].func_177424_a(p_175625_1_, Chunk.EnumCreateEntityType.IMMEDIATE);
++        return this.field_72817_c[i][j].func_177424_a(p_175625_1_, Chunk.EnumCreateEntityType.CHECK);
      }
  
+     @SideOnly(Side.CLIENT)
 @@ -143,6 +145,8 @@
              {
                  int i = (p_175629_2_.func_177958_n() >> 4) - this.field_72818_a;
