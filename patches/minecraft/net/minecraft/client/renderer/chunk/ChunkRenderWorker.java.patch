@@ -1,0 +1,11 @@
+--- ../src-base/minecraft/net/minecraft/client/renderer/chunk/ChunkRenderWorker.java
++++ ../src-work/minecraft/net/minecraft/client/renderer/chunk/ChunkRenderWorker.java
+@@ -85,7 +85,7 @@
+             int j = 8;
+             int k = 24;
+ 
+-            if (blockpos1.func_177982_a(8, 8, 8).func_177951_i(blockpos) > 576.0D)
++            if (true)
+             {
+                 World world = p_178474_1_.func_178536_b().func_188283_p();
+                 BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(blockpos1);
