@@ -1,6 +1,12 @@
 --- ../src-base/minecraft/net/minecraft/world/gen/ChunkProviderServer.java
 +++ ../src-work/minecraft/net/minecraft/world/gen/ChunkProviderServer.java
-@@ -35,6 +35,7 @@
+@@ -30,11 +30,12 @@
+ public class ChunkProviderServer implements IChunkProvider
+ {
+     private static final Logger field_147417_b = LogManager.getLogger();
+-    private final Set<Long> field_73248_b = Sets.<Long>newHashSet();
++    private final Set<Long> field_73248_b = Sets.<Long>newConcurrentHashSet();
+     public final IChunkGenerator field_186029_c;
      public final IChunkLoader field_73247_e;
      public final Long2ObjectMap<Chunk> field_73244_f = new Long2ObjectOpenHashMap(8192);
      public final WorldServer field_73251_h;
