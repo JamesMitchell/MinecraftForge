@@ -1,0 +1,10 @@
+--- ../src-base/minecraft/net/minecraft/util/math/AxisAlignedBB.java
++++ ../src-work/minecraft/net/minecraft/util/math/AxisAlignedBB.java
+@@ -245,6 +245,7 @@
+ 
+     public boolean func_72326_a(AxisAlignedBB p_72326_1_)
+     {
++        if (p_72326_1_ == null) return false;
+         return this.func_186668_a(p_72326_1_.field_72340_a, p_72326_1_.field_72338_b, p_72326_1_.field_72339_c, p_72326_1_.field_72336_d, p_72326_1_.field_72337_e, p_72326_1_.field_72334_f);
+     }
+ 
