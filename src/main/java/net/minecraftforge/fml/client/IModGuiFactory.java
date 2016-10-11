@@ -24,14 +24,21 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 
+/**
+ * TODO remove in 1.11
+ * @deprecated use {@link IModConfigGuiFactory}
+ */
+@Deprecated
 public interface IModGuiFactory {
     /**
      * Called when instantiated to initialize with the active minecraft instance.
      *
      * @param minecraftInstance the instance
      */
-    public void initialize(Minecraft minecraftInstance);
+    void initialize(Minecraft minecraftInstance);
+
     /**
      * Return the name of a class extending {@link GuiScreen}. This class will
      * be instantiated when the "config" button is pressed in the mod list. It will
@@ -52,9 +59,10 @@ public interface IModGuiFactory {
      *
      * @return A class that will be instantiated on clicks on the config button
      *  or null if no GUI is desired.
+     * @deprecated use {@link IModConfigGuiFactory#createConfigGui(GuiScreen)}
      */
-    public Class<? extends GuiScreen> mainConfigGuiClass();
-
+    @Deprecated
+    Class<? extends GuiScreen> mainConfigGuiClass();
 
     /**
      * Return a list of the "runtime" categories this mod wishes to populate with
@@ -75,8 +83,11 @@ public interface IModGuiFactory {
      * when the server is local or remote.
      *
      * @return the set of options this mod wishes to have available, or empty if none
+     *
+     * TODO remove in 1.11 - this was never fully implemented and will be removed
      */
-    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories();
+    @Deprecated
+    Set<RuntimeOptionCategoryElement> runtimeGuiCategories();
 
     /**
      * Return an instance of a {@link RuntimeOptionGuiHandler} that handles painting the
@@ -84,15 +95,20 @@ public interface IModGuiFactory {
      *
      * @param element The element we wish to paint for
      * @return The Handler for painting it
+     *
+     * TODO remove in 1.11 - this was never fully implemented and will be removed
      */
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element);
+    @Deprecated
+    RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element);
 
     /**
      * Represents an option category and entry in the runtime gui options list.
      *
      * @author cpw
      *
+     * TODO remove in 1.11 - this was never fully implemented and will be removed
      */
+    @Deprecated
     public static class RuntimeOptionCategoryElement {
         public final String parent;
         public final String child;

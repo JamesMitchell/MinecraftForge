@@ -79,6 +79,7 @@ import net.minecraft.world.storage.SaveFormatOld;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.DuplicateModsFoundException;
@@ -184,6 +185,7 @@ public class FMLClientHandler implements IFMLSidedHandler
     private Map<String, IResourcePack> resourcePackMap;
 
     private BiMap<ModContainer, IModGuiFactory> guiFactories;
+    private BiMap<ModContainer, IModConfigGuiFactory> configGuiFactories;
 
     private Map<ServerStatusResponse,JsonObject> extraServerListData;
     private Map<ServerData, ExtendedServerListData> serverDataTag;
@@ -340,23 +342,40 @@ public class FMLClientHandler implements IFMLSidedHandler
         client.refreshResources();
         RenderingRegistry.loadEntityRenderers(Minecraft.getMinecraft().getRenderManager().entityRenderMap);
         guiFactories = HashBiMap.create();
+        configGuiFactories = HashBiMap.create();
         for (ModContainer mc : Loader.instance().getActiveModList())
         {
             String className = mc.getGuiClassName();
-            if (Strings.isNullOrEmpty(className))
+            if (!Strings.isNullOrEmpty(className))
             {
-                continue;
+                try
+                {
+                    Class<?> clazz = Class.forName(className, true, Loader.instance().getModClassLoader());
+                    Class<? extends IModGuiFactory> guiClassFactory = clazz.asSubclass(IModGuiFactory.class);
+                    IModGuiFactory guiFactory = guiClassFactory.newInstance();
+                    guiFactory.initialize(client);
+                    guiFactories.put(mc, guiFactory);
+                }
+                catch (Exception e)
+                {
+                    FMLLog.log(Level.ERROR, e, "A critical error occurred instantiating the gui factory for mod %s", mc.getModId());
+                }
             }
-            try
+
+            className = mc.getConfigGuiFactoryClassName();
+            if (!Strings.isNullOrEmpty(className))
             {
-                Class<?> clazz = Class.forName(className, true, Loader.instance().getModClassLoader());
-                Class<? extends IModGuiFactory> guiClassFactory = clazz.asSubclass(IModGuiFactory.class);
-                IModGuiFactory guiFactory = guiClassFactory.newInstance();
-                guiFactory.initialize(client);
-                guiFactories.put(mc, guiFactory);
-            } catch (Exception e)
-            {
-                FMLLog.log(Level.ERROR, e, "A critical error occurred instantiating the gui factory for mod %s", mc.getModId());
+                try
+                {
+                    Class<?> clazz = Class.forName(className, true, Loader.instance().getModClassLoader());
+                    Class<? extends IModConfigGuiFactory> guiClassFactory = clazz.asSubclass(IModConfigGuiFactory.class);
+                    IModConfigGuiFactory guiFactory = guiClassFactory.newInstance();
+                    configGuiFactories.put(mc, guiFactory);
+                }
+                catch (Exception e)
+                {
+                    FMLLog.log(Level.ERROR, e, "A critical error occurred instantiating the config gui factory for mod %s", mc.getModId());
+                }
             }
         }
         loading = false;
@@ -739,6 +758,10 @@ public class FMLClientHandler implements IFMLSidedHandler
         return guiFactories.get(selectedMod);
     }
 
+    public IModConfigGuiFactory getConfigGuiFactoryFor(ModContainer selectedMod)
+    {
+        return configGuiFactories.get(selectedMod);
+    }
 
     public void setupServerList()
     {

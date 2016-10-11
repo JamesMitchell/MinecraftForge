@@ -34,8 +34,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+import net.minecraftforge.fml.client.FMLConfigGuiFactory;
 import net.minecraftforge.fml.client.FMLFileResourcePack;
 import net.minecraftforge.fml.client.FMLFolderResourcePack;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.asm.FMLSanityChecker;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -363,6 +365,12 @@ public final class FMLContainer extends DummyModContainer implements WorldAccess
 
     @Override
     public String getGuiClassName()
+    {
+        return "net.minecraftforge.fml.client.FMLConfigGuiFactory";
+    }
+
+    @Override
+    public String getConfigGuiFactoryClassName()
     {
         return "net.minecraftforge.fml.client.FMLConfigGuiFactory";
     }

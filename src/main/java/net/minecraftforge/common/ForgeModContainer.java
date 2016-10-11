@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraftforge.client.gui.ForgeGuiFactory;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.crash.CrashReport;
@@ -151,6 +153,12 @@ public class ForgeModContainer extends DummyModContainer implements WorldAccessC
 
     @Override
     public String getGuiClassName()
+    {
+        return "net.minecraftforge.client.gui.ForgeGuiFactory";
+    }
+
+    @Override
+    public String getConfigGuiFactoryClassName()
     {
         return "net.minecraftforge.client.gui.ForgeGuiFactory";
     }

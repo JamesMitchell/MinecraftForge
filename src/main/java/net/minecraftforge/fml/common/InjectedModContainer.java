@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.versioning.ArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionRange;
 
@@ -202,6 +203,12 @@ public class InjectedModContainer implements ModContainer
     public String getGuiClassName()
     {
         return wrappedContainer.getGuiClassName();
+    }
+
+    @Override
+    public String getConfigGuiFactoryClassName()
+    {
+        return wrappedContainer.getConfigGuiFactoryClassName();
     }
 
     @Override

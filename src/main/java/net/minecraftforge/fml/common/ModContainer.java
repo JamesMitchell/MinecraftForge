@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.versioning.ArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionRange;
 
@@ -152,7 +153,10 @@ public interface ModContainer
 
     Disableable canBeDisabled();
 
+    @Deprecated
     String getGuiClassName();
+
+    String getConfigGuiFactoryClassName();
 
     List<String> getOwnedPackages();
 

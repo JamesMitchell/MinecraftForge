@@ -25,6 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import net.minecraftforge.fml.client.IModGuiFactory;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.event.FMLEvent;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -188,8 +189,18 @@ public @interface Mod
      * on the client side, and will have certain configuration/options guis requested from it.
      *
      * @return The name of a class implementing {@link IModGuiFactory}
+     * @deprecated use {@link #configGuiFactory()}
      */
+    @Deprecated
     String guiFactory() default "";
+
+    /**
+     * An optional GUI config factory for this mod. This is the name of a class implementing {@link IModConfigGuiFactory}
+     * that will be instantiated on the client side, and will have certain configuration/options guis requested from it.
+     *
+     * @return The name of a class implementing {@link IModConfigGuiFactory}
+     */
+    String configGuiFactory() default "";
 
     /**
      * An optional URL to a JSON file that will be checked once per launch to determine if there is an updated

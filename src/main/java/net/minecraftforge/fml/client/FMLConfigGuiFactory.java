@@ -38,8 +38,9 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyListElement;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 
-public class FMLConfigGuiFactory implements IModGuiFactory 
+public class FMLConfigGuiFactory implements IModGuiFactory, IModConfigGuiFactory
 {
     public static class FMLConfigGuiScreen extends GuiConfig 
     {
@@ -114,6 +115,12 @@ public class FMLConfigGuiFactory implements IModGuiFactory
     public Class<? extends GuiScreen> mainConfigGuiClass()
     {
         return FMLConfigGuiScreen.class;
+    }
+
+    @Override
+    public GuiScreen createConfigGui(GuiScreen parent)
+    {
+        return new GuiConfig(parent, FMLConfigGuiScreen.getConfigElements(), "FML", false, false, I18n.format("fml.config.sample.title"));
     }
 
     private static final Set<RuntimeOptionCategoryElement> fmlCategories = ImmutableSet.of(new RuntimeOptionCategoryElement("HELP", "FML"));

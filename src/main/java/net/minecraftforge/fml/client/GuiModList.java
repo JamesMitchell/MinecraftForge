@@ -53,6 +53,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.ForgeVersion.CheckResult;
 import net.minecraftforge.common.ForgeVersion.Status;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -277,6 +278,14 @@ public class GuiModList extends GuiScreen
                     }
                     case 20:
                     {
+                        IModConfigGuiFactory configGuiFactory = FMLClientHandler.instance().getConfigGuiFactoryFor(selectedMod);
+                        if (configGuiFactory != null)
+                        {
+                            GuiScreen newScreen = configGuiFactory.createConfigGui(this);
+                            this.mc.displayGuiScreen(newScreen);
+                            return;
+                        }
+
                         try
                         {
                             IModGuiFactory guiFactory = FMLClientHandler.instance().getGuiFactoryFor(selectedMod);
@@ -412,8 +421,9 @@ public class GuiModList extends GuiScreen
             }
 
             IModGuiFactory guiFactory = FMLClientHandler.instance().getGuiFactoryFor(selectedMod);
+            IModConfigGuiFactory configGuiFactory = FMLClientHandler.instance().getConfigGuiFactoryFor(selectedMod);
             configModButton.visible = true;
-            configModButton.enabled = guiFactory != null && guiFactory.mainConfigGuiClass() != null;
+            configModButton.enabled = (guiFactory != null && guiFactory.mainConfigGuiClass() != null) || configGuiFactory != null;
 
             lines.add(selectedMod.getMetadata().name);
             lines.add(String.format("Version: %s (%s)", selectedMod.getDisplayVersion(), selectedMod.getVersion()));

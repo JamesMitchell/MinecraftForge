@@ -54,6 +54,8 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.SelectValueEntry;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.BooleanEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import static net.minecraftforge.common.ForgeModContainer.VERSION_CHECK_CAT;
@@ -93,18 +95,24 @@ import static net.minecraftforge.common.ForgeModContainer.VERSION_CHECK_CAT;
  *                  - etc.
  *
  * Other things to check out:
- *      ForgeModContainer.syncConfig()
- *      ForgeModContainer.onConfigChanged()
- *      ForgeChunkManager.syncConfigDefaults()
- *      ForgeChunkManager.loadConfiguration()
+ * @see ForgeModContainer#syncConfig(boolean)
+ * @see ForgeModContainer#onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent)
+ * @see ForgeChunkManager#syncConfigDefaults()
+ * @see ForgeChunkManager#loadConfiguration()
  */
-public class ForgeGuiFactory implements IModGuiFactory
+public class ForgeGuiFactory implements IModGuiFactory, IModConfigGuiFactory
 {
     @Override
     public void initialize(Minecraft minecraftInstance) {}
 
     @Override
     public Class<? extends GuiScreen> mainConfigGuiClass() { return ForgeConfigGui.class; }
+
+    @Override
+    public GuiScreen createConfigGui(GuiScreen parent)
+    {
+        return new GuiConfig(parent, ForgeConfigGui.getConfigElements(), "Forge", false, false, I18n.format("forge.configgui.forgeConfigTitle"));
+    }
 
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() { return null; }

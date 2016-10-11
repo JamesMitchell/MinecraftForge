@@ -37,6 +37,7 @@ import java.util.Set;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.Mod.Metadata;
 import net.minecraftforge.fml.common.asm.transformers.BlamingTransformer;
@@ -689,6 +690,12 @@ public class FMLModContainer implements ModContainer
     public String getGuiClassName()
     {
         return (String)descriptor.get("guiFactory");
+    }
+
+    @Override
+    public String getConfigGuiFactoryClassName()
+    {
+        return (String)descriptor.get("configGuiFactory");
     }
 
     @Override

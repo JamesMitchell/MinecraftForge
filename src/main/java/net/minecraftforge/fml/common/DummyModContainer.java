@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraftforge.fml.client.config.IModConfigGuiFactory;
 import net.minecraftforge.fml.common.versioning.ArtifactVersion;
 import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionRange;
@@ -200,6 +201,12 @@ public class DummyModContainer implements ModContainer
 
     @Override
     public String getGuiClassName()
+    {
+        return null;
+    }
+
+    @Override
+    public String getConfigGuiFactoryClassName()
     {
         return null;
     }
