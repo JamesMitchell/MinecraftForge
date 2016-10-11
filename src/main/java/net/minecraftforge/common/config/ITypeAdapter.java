@@ -22,12 +22,12 @@ import java.lang.reflect.Field;
 
 interface ITypeAdapter
 {
-	Property getProp(Configuration cfg, String category, Field field, Object instance, String comment);
+    Property getProp(Configuration cfg, String category, Field field, Object instance, String comment);
 
-	Object getValue(Property prop);
+    Object getValue(Property prop);
 
-	public interface Map extends ITypeAdapter
-	{
-		Property getProp(Configuration cfg, String category, String name, Object value);
-	}
+    public interface Map extends ITypeAdapter
+    {
+        Property getProp(Configuration cfg, String category, String name, Object value);
+    }
 }
