@@ -20,6 +20,7 @@
 package net.minecraftforge.common.config;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 //=========================================================
 // Run away thar' be dragons!
 //=========================================================
@@ -30,8 +31,6 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Shorts;
-
-import scala.actors.threadpool.Arrays;
 
 @SuppressWarnings("unchecked")
 class TypeAdapters
