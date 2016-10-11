@@ -32,7 +32,6 @@ import com.google.common.primitives.Floats;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Shorts;
 
-@SuppressWarnings("unchecked")
 class TypeAdapters
 {
    /*
@@ -54,8 +53,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter boolA = new MapAdapter() {
+        private final boolean[] failureValue = new boolean[]{};
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (boolean[])getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, boolean[].class, failureValue), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (boolean[])value, null);
@@ -65,19 +65,21 @@ class TypeAdapters
         }
     };
     static ITypeAdapter Bool = new MapAdapter() {
+        private final Boolean failureValue = false;
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Boolean)getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, Boolean.class, failureValue), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Boolean)value, null);
         }
         public Object getValue(Property prop) {
-            return Boolean.valueOf(prop.getBoolean());
+            return prop.getBoolean();
         }
     };
     static ITypeAdapter BoolA = new MapAdapter() {
+        private final Boolean[] failureValue = new Boolean[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Booleans.toArray(Arrays.asList((Boolean[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Booleans.toArray(Arrays.asList(getObject(instance, field, Boolean[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Boolean)value, null);
@@ -95,8 +97,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter fltA = new MapAdapter() {
+        private final float[] failureValue = new float[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Doubles.toArray(Floats.asList((float[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Doubles.toArray(Floats.asList(getObject(instance, field, float[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Doubles.toArray(Floats.asList((float[])value)), null);
@@ -107,18 +110,19 @@ class TypeAdapters
     };
     static ITypeAdapter Flt = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Float)getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, Float.class, 0f), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Float)value, null);
         }
         public Object getValue(Property prop) {
-            return Float.valueOf((float)prop.getDouble());
+            return (float) prop.getDouble();
         }
     };
     static ITypeAdapter FltA = new MapAdapter() {
+        private final Float[] failureValue = new Float[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Doubles.toArray(Arrays.asList((Float[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Doubles.toArray(Arrays.asList(getObject(instance, field, Float[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Doubles.toArray(Arrays.asList((Float[])value)), null);
@@ -136,8 +140,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter dblA = new MapAdapter() {
+        private final double[] failureValue = new double[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (double[])getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, double[].class, failureValue), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (double[])value, null);
@@ -148,18 +153,19 @@ class TypeAdapters
     };
     static ITypeAdapter Dbl = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Double)getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, Double.class, 0d), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Double)value, null);
         }
         public Object getValue(Property prop) {
-            return Double.valueOf(prop.getDouble());
+            return prop.getDouble();
         }
     };
     static ITypeAdapter DblA = new MapAdapter() {
+        private final Double[] failureValue = new Double[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Doubles.toArray(Arrays.asList((Double[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Doubles.toArray(Arrays.asList(getObject(instance, field, Double[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Doubles.toArray(Arrays.asList((Double[])value)), null);
@@ -177,8 +183,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter bytA = new MapAdapter() {
+        private final byte[] failureValue = new byte[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Ints.toArray(Bytes.asList((byte[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Ints.toArray(Bytes.asList(getObject(instance, field, byte[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Ints.toArray(Bytes.asList((byte[])value)), null);
@@ -189,18 +196,19 @@ class TypeAdapters
     };
     static ITypeAdapter Byt = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Byte)getObject(instance, field), comment, Byte.MIN_VALUE, Byte.MAX_VALUE);
+            return cfg.get(category, field.getName(), getObject(instance, field, Byte.class, (byte)0), comment, Byte.MIN_VALUE, Byte.MAX_VALUE);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Byte)value, null, Byte.MIN_VALUE, Byte.MAX_VALUE);
         }
         public Object getValue(Property prop) {
-            return Byte.valueOf((byte)prop.getInt());
+            return (byte) prop.getInt();
         }
     };
     static ITypeAdapter BytA = new MapAdapter() {
+        private final Byte[] failureValue = new Byte[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Ints.toArray(Arrays.asList((Byte[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Ints.toArray(Arrays.asList(getObject(instance, field, Byte[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Ints.toArray(Arrays.asList((Byte[])value)), null);
@@ -218,6 +226,7 @@ class TypeAdapters
         }
     };
     static ITypeAdapter chrA = new MapAdapter() {
+        private final char[] failureValue = new char[0];
         private int[] toPrim(char[] v) {
             if (v == null) return new int[0];
             int[] ret = new int[v.length];
@@ -226,7 +235,7 @@ class TypeAdapters
             return ret;
         }
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), toPrim((char[])getObject(instance, field)), comment);
+            return cfg.get(category, field.getName(), toPrim(getObject(instance, field, char[].class, failureValue)), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, toPrim((char[])value), null);
@@ -241,16 +250,17 @@ class TypeAdapters
     };
     static ITypeAdapter Chr = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Character)getObject(instance, field), comment, Character.MIN_VALUE, Character.MAX_VALUE);
+            return cfg.get(category, field.getName(), getObject(instance, field, Character.class, (char)0), comment, Character.MIN_VALUE, Character.MAX_VALUE);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Character)value, null, Character.MIN_VALUE, Character.MAX_VALUE);
         }
         public Object getValue(Property prop) {
-            return Character.valueOf((char)prop.getInt());
+            return (char) prop.getInt();
         }
     };
     static ITypeAdapter ChrA = new MapAdapter() {
+        private final Character[] failureValue = new Character[0];
         private int[] toPrim(Character[] v) {
             if (v == null) return new int[0];
             int[] ret = new int[v.length];
@@ -259,7 +269,7 @@ class TypeAdapters
             return ret;
         }
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), toPrim((Character[])getObject(instance, field)), comment);
+            return cfg.get(category, field.getName(), toPrim(getObject(instance, field, Character[].class, failureValue)), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, toPrim((Character[])value), null);
@@ -268,7 +278,7 @@ class TypeAdapters
             int[] v = prop.getIntList();
             Character[] ret = new Character[v.length];
             for (int x = 0; x < v.length; x++)
-                ret[x] = Character.valueOf((char)v[x]);
+                ret[x] = (char) v[x];
             return ret;
         }
     };
@@ -281,8 +291,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter shrtA = new MapAdapter() {
+        private final short[] failureValue = new short[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Ints.toArray(Shorts.asList((short[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Ints.toArray(Shorts.asList(getObject(instance, field, short[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Ints.toArray(Shorts.asList((short[])value)), null);
@@ -293,18 +304,19 @@ class TypeAdapters
     };
     static ITypeAdapter Shrt = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Short)getObject(instance, field), comment, Short.MIN_VALUE, Short.MAX_VALUE);
+            return cfg.get(category, field.getName(), getObject(instance, field, Short.class, (short)0), comment, Short.MIN_VALUE, Short.MAX_VALUE);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Short)value, null, Short.MIN_VALUE, Short.MAX_VALUE);
         }
         public Object getValue(Property prop) {
-            return Short.valueOf((short)prop.getInt());
+            return (short) prop.getInt();
         }
     };
     static ITypeAdapter ShrtA = new MapAdapter() {
+        private final Short[] failureValue = new Short[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Ints.toArray(Arrays.asList((Short[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Ints.toArray(Arrays.asList(getObject(instance, field, Short[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Ints.toArray(Arrays.asList((Short[])value)), null);
@@ -313,7 +325,7 @@ class TypeAdapters
             int[] v = prop.getIntList();
             Short[] ret = new Short[v.length];
             for (int x = 0; x < ret.length; x++)
-                ret[x] = Short.valueOf((short)v[x]);
+                ret[x] = (short) v[x];
             return ret;
         }
     };
@@ -326,8 +338,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter intA = new MapAdapter() {
+        private final int[] failureValue = new int[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (int[])getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, int[].class, failureValue), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (int[])value, null);
@@ -338,18 +351,19 @@ class TypeAdapters
     };
     static ITypeAdapter Int = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (Integer)getObject(instance, field), comment, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            return cfg.get(category, field.getName(), getObject(instance, field, Integer.class, 0), comment, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (Integer)value, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
         public Object getValue(Property prop) {
-            return (Integer)prop.getInt();
+            return prop.getInt();
         }
     };
     static ITypeAdapter IntA = new MapAdapter() {
+        private final Integer[] failureValue = new Integer[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), Ints.toArray(Arrays.asList((Integer[])getObject(instance, field))), comment);
+            return cfg.get(category, field.getName(), Ints.toArray(Arrays.asList(getObject(instance, field, Integer[].class, failureValue))), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, Ints.toArray(Arrays.asList((Integer[])value)), null);
@@ -360,7 +374,7 @@ class TypeAdapters
     };
     static ITypeAdapter.Map Str = new MapAdapter() {
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (String)getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, String.class, ""), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (String)value, null);
@@ -370,8 +384,9 @@ class TypeAdapters
         }
     };
     static ITypeAdapter StrA = new MapAdapter() {
+        private final String[] failureValue = new String[0];
         public Property getProp(Configuration cfg, String category, Field field, Object instance, String comment) {
-            return cfg.get(category, field.getName(), (String[])getObject(instance, field), comment);
+            return cfg.get(category, field.getName(), getObject(instance, field, String[].class, failureValue), comment);
         }
         public Property getProp(Configuration cfg, String category, String name, Object value) {
             return cfg.get(category, name, (String[])value, null);
@@ -402,14 +417,17 @@ class TypeAdapters
             }
             return 0;
         }
-        public static Object getObject(Object instance, Field f)
+        public static <T> T getObject(Object instance, Field f, Class<T> type, T failureValue)
         {
             try {
-                return f.get(instance);
+                Object object = f.get(instance);
+                if (type.isInstance(object)) {
+                    return type.cast(object);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+            return failureValue;
         }
         public static byte getByte(Object instance, Field f)
         {
