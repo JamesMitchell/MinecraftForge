@@ -1,8 +1,27 @@
 --- ../src-base/minecraft/net/minecraft/client/resources/FallbackResourceManager.java
 +++ ../src-work/minecraft/net/minecraft/client/resources/FallbackResourceManager.java
-@@ -69,6 +69,7 @@
-         throw new FileNotFoundException(p_110536_1_.toString());
+@@ -38,7 +38,7 @@
+         return Collections.<String>emptySet();
      }
+ 
+-    public IResource func_110536_a(ResourceLocation p_110536_1_) throws IOException
++    public IResource getNullableResource(ResourceLocation p_110536_1_) throws IOException
+     {
+         this.func_188552_d(p_110536_1_);
+         IResourcePack iresourcepack = null;
+@@ -66,9 +66,16 @@
+             }
+         }
+ 
+-        throw new FileNotFoundException(p_110536_1_.toString());
++        return null;
+     }
++    public IResource func_110536_a(ResourceLocation p_110536_1_) throws IOException {
++        IResource resource = getNullableResource(p_110536_1_);
++        if (resource == null)
++            throw new FileNotFoundException(p_110536_1_.toString());
++        return resource;
++    }
  
 +    @SuppressWarnings("resource")
      protected InputStream func_177245_a(ResourceLocation p_177245_1_, IResourcePack p_177245_2_) throws IOException

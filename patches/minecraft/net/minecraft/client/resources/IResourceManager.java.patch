@@ -1,0 +1,21 @@
+--- ../src-base/minecraft/net/minecraft/client/resources/IResourceManager.java
++++ ../src-work/minecraft/net/minecraft/client/resources/IResourceManager.java
+@@ -15,4 +15,18 @@
+     IResource func_110536_a(ResourceLocation p_110536_1_) throws IOException;
+ 
+     List<IResource> func_135056_b(ResourceLocation p_135056_1_) throws IOException;
++
++    /** FORGE: Allows more efficient implementations that return null instead of throwing FileNotFoundException */
++    @javax.annotation.Nullable
++    default IResource getNullableResource(ResourceLocation location) throws IOException
++    {
++        try
++        {
++            return func_110536_a(location);
++        }
++        catch (java.io.FileNotFoundException ignored)
++        {
++            return null;
++        }
++    }
+ }

@@ -551,19 +551,13 @@ public class ModelBlockAnimation
      */
     public static ModelBlockAnimation loadVanillaAnimation(IResourceManager manager, ResourceLocation armatureLocation)
     {
-        try
+        try (IResource resource = manager.getNullableResource(armatureLocation))
         {
-            try (IResource resource = manager.getResource(armatureLocation))
+            if (resource == null)
             {
-                ModelBlockAnimation mba = mbaGson.fromJson(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8), ModelBlockAnimation.class);
-                //String json = mbaGson.toJson(mba);
-                return mba;
-            }
-            catch(FileNotFoundException e)
-            {
-                // this is normal. FIXME: error reporting?
                 return defaultModelBlockAnimation;
             }
+            return mbaGson.fromJson(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8), ModelBlockAnimation.class);
         }
         catch(IOException | JsonParseException e)
         {
