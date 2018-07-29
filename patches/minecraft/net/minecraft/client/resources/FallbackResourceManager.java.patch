@@ -13,15 +13,14 @@
              }
          }
  
--        throw new FileNotFoundException(p_110536_1_.toString());
 +        return null;
-     }
++    }
 +    public IResource func_110536_a(ResourceLocation p_110536_1_) throws IOException {
 +        IResource resource = getNullableResource(p_110536_1_);
-+        if (resource == null)
-+            throw new FileNotFoundException(p_110536_1_.toString());
-+        return resource;
-+    }
++        if (resource != null)
++            return resource;
+         throw new FileNotFoundException(p_110536_1_.toString());
+     }
  
 +    @SuppressWarnings("resource")
      protected InputStream func_177245_a(ResourceLocation p_177245_1_, IResourcePack p_177245_2_) throws IOException
